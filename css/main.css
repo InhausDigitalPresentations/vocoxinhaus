@@ -175,6 +175,24 @@ hr.rule {
 }
 
 /* ---------- 4. Fixed chrome (deliberately minimal) ---------- */
+/* A soft ground behind the lockup and counter so content scrolling beneath
+   never collides with them. JS keeps --chrome-bg matched to the section. */
+.scrim {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: clamp(76px, 11vh, 110px);
+  z-index: 55;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    var(--chrome-bg, var(--ink)) 0%,
+    var(--chrome-bg, var(--ink)) 42%,
+    color-mix(in srgb, var(--chrome-bg, var(--ink)) 62%, transparent) 68%,
+    transparent 100%);
+}
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .scrim { background: linear-gradient(180deg, var(--chrome-bg, var(--ink)) 12%, transparent); }
+}
+
 .chrome {
   position: fixed;
   z-index: 60;
@@ -750,6 +768,8 @@ hr.rule {
   color: var(--whiskey);
 }
 .hierarchy span.lc { text-transform: lowercase; letter-spacing: -0.035em; }
+/* only the brand word drops to lowercase, so the row still reads as a set */
+.hierarchy i.lc-word { font-style: normal; text-transform: lowercase; letter-spacing: -0.035em; }
 
 .equal {
   font-size: 0.8125rem;
@@ -834,7 +854,9 @@ hr.rule {
   text-transform: uppercase;
   color: var(--on-dark);
 }
-.rhythm b:nth-child(3) { color: var(--whiskey); }
+/* nth-OF-TYPE: the separators are <i>, so nth-child would land on Contrast.
+   The word the whole idea hangs on is Convergence. */
+.rhythm b:nth-of-type(3) { color: var(--whiskey); }
 .rhythm i {
   font-style: normal;
   color: var(--on-dark-low);

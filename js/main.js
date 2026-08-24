@@ -35,7 +35,7 @@
           revealIO.unobserve(e.target);
         }
       });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    }, { rootMargin: '0px 0px -7% 0px', threshold: 0.06 });
 
     Array.prototype.forEach.call(revealables, function (el) { revealIO.observe(el); });
   }
@@ -65,6 +65,12 @@
     document.body.setAttribute('data-tone', tone === 'light' ? 'light' : 'dark');
     document.body.setAttribute('data-in-sb', sec && sec.hasAttribute('data-sb') ? 'true' : 'false');
     document.body.setAttribute('data-sec', String(i));
+
+    // keep the chrome scrim matched to this section's ground
+    if (sec) {
+      var bg = getComputedStyle(sec).backgroundColor;
+      if (bg && bg !== 'rgba(0, 0, 0, 0)') root.style.setProperty('--chrome-bg', bg);
+    }
   }
 
   if ('IntersectionObserver' in window) {
